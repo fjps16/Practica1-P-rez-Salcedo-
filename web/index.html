@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div style="width: 100%; background-color: blue; color: white; text-align: center;">BASE DE DATOS DE PLATILLOS</div><br>
+        <button  onclick="Consultar();">Consultar</button>
+        <table id="TablaP" cellpadding="1" border="1" style="border-collapse: collapse;width: 100%">
+            <tr style="background-color:red; color: white; text-align: center;">
+                <td>ID</td>
+                <td>Nombre</td>
+                <td>Precio</td>
+                <td>Categoria</td>               
+            </tr>
+        </table>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script type="text/javascript">
+            function Consultar() {
+                $.ajax({
+                    method : 'POST',
+                    url : 'ConsultaServlet',
+                    
+                    success: function (msg) {
+                        var tabla = document.getElementById("TablaP");
+                        for (var i = 0; i < msg.length; i++) {
+                            console.log(msg[i]);
+                            
+                            var fila = tabla.insertRow(1);
+                            
+                            var celda0 = fila.insertCell(0);
+                            var celda1 = fila.insertCell(1);
+                            var celda2 = fila.insertCell(2);
+                            var celda3 = fila.insertCell(3);
+                            
+                            celda0.innerHTML = msg[i].id_platos;
+                            celda1.innerHTML = msg[i].nombre;
+                            celda2.innerHTML = msg[i].precio;
+                            celda3.innerHTML = msg[i].categoria;                                                     
+                        }                       
+                    },
+                    error : function (msg) {
+                        console.error(msg);                      
+                    },
+                });
+            }
+        </script>
+    </body>
+</html>
